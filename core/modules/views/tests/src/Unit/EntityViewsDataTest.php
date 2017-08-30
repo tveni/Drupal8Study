@@ -9,6 +9,7 @@ namespace Drupal\Tests\views\Unit;
 
 use Drupal\Core\Config\Entity\ConfigEntityType;
 use Drupal\Core\Entity\ContentEntityType;
+use Drupal\Core\Entity\EntityType;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\Sql\DefaultTableMapping;
 use Drupal\Core\Field\BaseFieldDefinition;
@@ -1086,7 +1087,7 @@ class TestEntityViewsData extends EntityViewsData {
 
 }
 
-class TestEntityType extends ContentEntityType {
+class TestEntityType extends EntityType {
 
   /**
    * Sets a specific entity key.

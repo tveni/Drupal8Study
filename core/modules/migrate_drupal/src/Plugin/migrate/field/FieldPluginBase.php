@@ -48,13 +48,6 @@ abstract class FieldPluginBase extends PluginBase implements MigrateFieldInterfa
   /**
    * {@inheritdoc}
    */
-  public function getFieldFormatterMap() {
-    return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getFieldWidgetMap() {
     // By default, use the plugin ID for the widget types.
     return [
@@ -71,17 +64,6 @@ abstract class FieldPluginBase extends PluginBase implements MigrateFieldInterfa
       $process[0]['map'][$this->pluginId][$source_format] = $destination_format;
     }
     $migration->mergeProcessOfProperty('options/type', $process);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function processFieldValues(MigrationInterface $migration, $field_name, $data) {
-    $process = [
-      'plugin' => 'get',
-      'source' => $field_name,
-    ];
-    $migration->mergeProcessOfProperty($field_name, $process);
   }
 
   /**

@@ -4,7 +4,6 @@ namespace Drupal\simpletest;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\node\Entity\NodeType;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Provides methods to create content type from given values.
@@ -41,7 +40,7 @@ trait ContentTypeCreationTrait {
     $status = $type->save();
     node_add_body_field($type);
 
-    if ($this instanceof TestCase) {
+    if ($this instanceof \PHPUnit_Framework_TestCase) {
       $this->assertSame($status, SAVED_NEW, (new FormattableMarkup('Created content type %type.', ['%type' => $type->id()]))->__toString());
     }
     else {

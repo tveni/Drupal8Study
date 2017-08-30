@@ -11,8 +11,7 @@ use Drupal\migrate\Plugin\migrate\source\DummyQueryTrait;
  * @todo Support default picture?
  *
  * @MigrateSource(
- *   id = "user_picture_instance",
- *   source_module = "user"
+ *   id = "user_picture_instance"
  * )
  */
 class UserPictureInstance extends DrupalSqlBase {

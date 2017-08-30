@@ -2,7 +2,6 @@
 
 namespace Drupal\language\EventSubscriber;
 
-use Drupal\Core\DrupalKernelInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\Translator\TranslatorInterface;
 use Drupal\language\ConfigurableLanguageManagerInterface;
@@ -65,37 +64,23 @@ class LanguageRequestSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Initializes the language manager at the beginning of the request.
+   * Sets the default language and initializes configuration overrides.
    *
    * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
    *   The Event to process.
    */
   public function onKernelRequestLanguage(GetResponseEvent $event) {
     if ($event->getRequestType() == HttpKernelInterface::MASTER_REQUEST) {
-      $this->setLanguageOverrides();
+      $this->negotiator->setCurrentUser($this->currentUser);
+      if ($this->languageManager instanceof ConfigurableLanguageManagerInterface) {
+        $this->languageManager->setNegotiator($this->negotiator);
+        $this->languageManager->setConfigOverrideLanguage($this->languageManager->getCurrentLanguage());
+      }
+      // After the language manager has initialized, set the default langcode
+      // for the string translations.
+      $langcode = $this->languageManager->getCurrentLanguage()->getId();
+      $this->translation->setDefaultLangcode($langcode);
     }
-  }
-
-  /**
-   * Initializes config overrides whenever the service container is rebuilt.
-   */
-  public function onContainerInitializeSubrequestFinished() {
-    $this->setLanguageOverrides();
-  }
-
-  /**
-   * Sets the language for config overrides on the language manager.
-   */
-  private function setLanguageOverrides() {
-    $this->negotiator->setCurrentUser($this->currentUser);
-    if ($this->languageManager instanceof ConfigurableLanguageManagerInterface) {
-      $this->languageManager->setNegotiator($this->negotiator);
-      $this->languageManager->setConfigOverrideLanguage($this->languageManager->getCurrentLanguage());
-    }
-    // After the language manager has initialized, set the default langcode for
-    // the string translations.
-    $langcode = $this->languageManager->getCurrentLanguage()->getId();
-    $this->translation->setDefaultLangcode($langcode);
   }
 
   /**
@@ -106,7 +91,6 @@ class LanguageRequestSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     $events[KernelEvents::REQUEST][] = ['onKernelRequestLanguage', 255];
-    $events[DrupalKernelInterface::CONTAINER_INITIALIZE_SUBREQUEST_FINISHED][] = ['onContainerInitializeSubrequestFinished', 255];
 
     return $events;
   }

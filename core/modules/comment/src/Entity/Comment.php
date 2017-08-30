@@ -57,7 +57,6 @@ use Drupal\user\UserInterface;
  *     "canonical" = "/comment/{comment}",
  *     "delete-form" = "/comment/{comment}/delete",
  *     "edit-form" = "/comment/{comment}/edit",
- *     "create" = "/comment",
  *   },
  *   bundle_entity_type = "comment_type",
  *   field_ui_base_route  = "entity.comment_type.edit_form",
@@ -560,7 +559,7 @@ class Comment extends ContentEntityBase implements CommentInterface {
    * @see ::baseFieldDefinitions()
    *
    * @return bool
-   *   TRUE if the comment should be published, FALSE otherwise.
+   *  TRUE if the comment should be published, FALSE otherwise.
    */
   public static function getDefaultStatus() {
     return \Drupal::currentUser()->hasPermission('skip comment approval') ? CommentInterface::PUBLISHED : CommentInterface::NOT_PUBLISHED;

@@ -91,10 +91,8 @@ class ValidReferenceConstraintValidator extends ConstraintValidator implements C
       return;
     }
 
-    $entity = !empty($value->getParent()) ? $value->getEntity() : NULL;
-
     /** @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionInterface $handler * */
-    $handler = $this->selectionManager->getSelectionHandler($value->getFieldDefinition(), $entity);
+    $handler = $this->selectionManager->getSelectionHandler($value->getFieldDefinition());
     $target_type_id = $value->getFieldDefinition()->getSetting('target_type');
 
     // Add violations on deltas with a new entity that is not valid.

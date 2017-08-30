@@ -23,7 +23,6 @@ use Drupal\Core\TypedData\TypedDataInterface;
 use Drupal\views\FieldAPIHandlerTrait;
 use Drupal\views\Entity\Render\EntityFieldRenderer;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
-use Drupal\views\Plugin\DependentWithRemovalPluginInterface;
 use Drupal\views\ResultRow;
 use Drupal\views\ViewExecutable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,7 +34,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @ViewsField("field")
  */
-class EntityField extends FieldPluginBase implements CacheableDependencyInterface, MultiItemsFieldHandlerInterface, DependentWithRemovalPluginInterface {
+class EntityField extends FieldPluginBase implements CacheableDependencyInterface, MultiItemsFieldHandlerInterface {
 
   use FieldAPIHandlerTrait;
   use PluginDependencyTrait;
@@ -1043,13 +1042,10 @@ class EntityField extends FieldPluginBase implements CacheableDependencyInterfac
    */
   public function getValue(ResultRow $values, $field = NULL) {
     $entity = $this->getEntity($values);
-    // Retrieve the translated object.
-    $translated_entity = $this->getEntityFieldRenderer()->getEntityTranslation($entity, $values);
-
     // Some bundles might not have a specific field, in which case the entity
     // (potentially a fake one) doesn't have it either.
     /** @var \Drupal\Core\Field\FieldItemListInterface $field_item_list */
-    $field_item_list = isset($translated_entity->{$this->definition['field_name']}) ? $translated_entity->{$this->definition['field_name']} : NULL;
+    $field_item_list = isset($entity->{$this->definition['field_name']}) ? $entity->{$this->definition['field_name']} : NULL;
 
     if (!isset($field_item_list)) {
       // There isn't anything we can do without a valid field.
@@ -1079,31 +1075,6 @@ class EntityField extends FieldPluginBase implements CacheableDependencyInterfac
     else {
       return $values;
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function onDependencyRemoval(array $dependencies) {
-    // See if this handler is responsible for any of the dependencies being
-    // removed. If this is the case, indicate that this handler needs to be
-    // removed from the View.
-    $remove = FALSE;
-    // Get all the current dependencies for this handler.
-    $current_dependencies = $this->calculateDependencies();
-    foreach ($current_dependencies as $group => $dependency_list) {
-      // Check if any of the handler dependencies match the dependencies being
-      // removed.
-      foreach ($dependency_list as $config_key) {
-        if (isset($dependencies[$group]) && array_key_exists($config_key, $dependencies[$group])) {
-          // This handlers dependency matches a dependency being removed,
-          // indicate that this handler needs to be removed.
-          $remove = TRUE;
-          break 2;
-        }
-      }
-    }
-    return $remove;
   }
 
 }

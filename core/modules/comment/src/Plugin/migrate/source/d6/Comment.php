@@ -10,7 +10,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  *
  * @MigrateSource(
  *   id = "d6_comment",
- *   source_module = "comment"
+ *   source_provider = "comment"
  * )
  */
 class Comment extends DrupalSqlBase {

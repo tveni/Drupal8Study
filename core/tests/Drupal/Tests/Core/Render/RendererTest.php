@@ -511,7 +511,7 @@ class RendererTest extends RendererTestBase {
    * @covers ::render
    * @covers ::doRender
    */
-  public function testRenderAccessCacheabilityDependencyInheritance() {
+  public function testRenderAccessCacheablityDependencyInheritance() {
     $build = [
       '#access' => AccessResult::allowed()->addCacheContexts(['user']),
     ];

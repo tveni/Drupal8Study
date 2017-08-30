@@ -33,7 +33,8 @@ trait EntityPublishedTrait {
     }
 
     return [$entity_type->getKey('published') => BaseFieldDefinition::create('boolean')
-      ->setLabel(new TranslatableMarkup('Published'))
+      ->setLabel(new TranslatableMarkup('Publishing status'))
+      ->setDescription(new TranslatableMarkup('A boolean indicating the published state.'))
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE)
       ->setDefaultValue(TRUE)];

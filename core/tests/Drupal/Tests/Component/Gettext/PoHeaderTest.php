@@ -3,7 +3,7 @@
 namespace Drupal\Tests\Component\Gettext;
 
 use Drupal\Component\Gettext\PoHeader;
-use PHPUnit\Framework\TestCase;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * Unit tests for the Gettext PO file header handling features.
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @group Gettext
  */
-class PoHeaderTest extends TestCase {
+class PoHeaderTest extends UnitTestCase {
 
   /**
    * Tests that plural expressions are evaluated correctly.

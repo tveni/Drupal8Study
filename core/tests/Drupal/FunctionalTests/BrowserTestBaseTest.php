@@ -138,48 +138,6 @@ class BrowserTestBaseTest extends BrowserTestBase {
   }
 
   /**
-   * Tests linkExistsExact() functionality.
-   *
-   * @see \Drupal\Tests\WebAssert::linkExistsExact()
-   */
-  public function testLinkExistsExact() {
-    $this->drupalGet('test-pipe-char');
-    $this->assertSession()->linkExistsExact('foo|bar|baz');
-  }
-
-  /**
-   * Tests linkExistsExact() functionality fail.
-   *
-   * @see \Drupal\Tests\WebAssert::linkExistsExact()
-   */
-  public function testInvalidLinkExistsExact() {
-    $this->drupalGet('test-pipe-char');
-    $this->setExpectedException(ExpectationException::class, 'Link with label foo|bar found');
-    $this->assertSession()->linkExistsExact('foo|bar');
-  }
-
-  /**
-   * Tests linkNotExistsExact() functionality.
-   *
-   * @see \Drupal\Tests\WebAssert::linkNotExistsExact()
-   */
-  public function testLinkNotExistsExact() {
-    $this->drupalGet('test-pipe-char');
-    $this->assertSession()->linkNotExistsExact('foo|bar');
-  }
-
-  /**
-   * Tests linkNotExistsExact() functionality fail.
-   *
-   * @see \Drupal\Tests\WebAssert::linkNotExistsExact()
-   */
-  public function testInvalidLinkNotExistsExact() {
-    $this->drupalGet('test-pipe-char');
-    $this->setExpectedException(ExpectationException::class, 'Link with label foo|bar|baz not found');
-    $this->assertSession()->linkNotExistsExact('foo|bar|baz');
-  }
-
-  /**
    * Tests legacy text asserts.
    */
   public function testLegacyTextAsserts() {
@@ -223,7 +181,7 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->assertNoFieldByXPath("//input[@id = 'edit-name']");
       $this->fail('The "edit-name" field was not found.');
     }
-    catch (ExpectationException $e) {
+    catch (\PHPUnit_Framework_ExpectationFailedException $e) {
       $this->pass('assertNoFieldByXPath correctly failed. The "edit-name" field was found.');
     }
 
@@ -239,7 +197,7 @@ class BrowserTestBaseTest extends BrowserTestBase {
   /**
    * Tests legacy field asserts using textfields.
    */
-  public function testLegacyFieldAssertsForTextfields() {
+  public function testLegacyFieldAssertsWithTextfields() {
     $this->drupalGet('test-field-xpath');
 
     // *** 1. assertNoField().
@@ -272,7 +230,7 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->assertField('invalid_name_and_id');
       $this->fail('The "invalid_name_and_id" field was found.');
     }
-    catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+    catch (ExpectationException $e) {
       $this->pass('assertField correctly failed. The "invalid_name_and_id" field was not found.');
     }
 
@@ -361,7 +319,7 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->assertFieldByName('non-existing-name');
       $this->fail('The "non-existing-name" field was found.');
     }
-    catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+    catch (ExpectationException $e) {
       $this->pass('The "non-existing-name" field was not found');
     }
 
@@ -370,18 +328,15 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->assertFieldByName('name', 'not the value');
       $this->fail('The "name" field with incorrect value was found.');
     }
-    catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+    catch (ExpectationException $e) {
       $this->pass('assertFieldByName correctly failed. The "name" field with incorrect value was not found.');
     }
-
-    // Test that text areas can contain new lines.
-    $this->assertFieldsByValue($this->xpath("//textarea[@id = 'edit-test-textarea-with-newline']"), "Test text with\nnewline");
   }
 
   /**
-   * Tests legacy field asserts for options field type.
+   * Tests legacy field asserts on other types of field.
    */
-  public function testLegacyFieldAssertsForOptions() {
+  public function testLegacyFieldAssertsWithNonTextfields() {
     $this->drupalGet('test-field-xpath');
 
     // Option field type.
@@ -428,14 +383,8 @@ class BrowserTestBaseTest extends BrowserTestBase {
     catch (\PHPUnit_Framework_ExpectationFailedException $e) {
       $this->pass($e->getMessage());
     }
-  }
 
-  /**
-   * Tests legacy field asserts for button field type.
-   */
-  public function testLegacyFieldAssertsForButton() {
-    $this->drupalGet('test-field-xpath');
-
+    // Button field type.
     $this->assertFieldById('edit-save', NULL);
     // Test that the assertion fails correctly if the field value is passed in
     // rather than the id.
@@ -443,7 +392,7 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->assertFieldById('Save', NULL);
       $this->fail('The field with id of "Save" was found.');
     }
-    catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+    catch (ExpectationException $e) {
       $this->pass($e->getMessage());
     }
 
@@ -458,27 +407,7 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->pass($e->getMessage());
     }
 
-    // Test that multiple fields with the same name are validated correctly.
-    $this->assertFieldByName('duplicate_button', 'Duplicate button 1');
-    $this->assertFieldByName('duplicate_button', 'Duplicate button 2');
-    $this->assertNoFieldByName('duplicate_button', 'Rabbit');
-
-    try {
-      $this->assertNoFieldByName('duplicate_button', 'Duplicate button 2');
-      $this->fail('The "duplicate_button" field with the value Duplicate button 2 was not found.');
-    }
-    catch (ExpectationException $e) {
-      $this->pass('assertNoFieldByName correctly failed. The "duplicate_button" field with the value Duplicate button 2 was found.');
-    }
-  }
-
-  /**
-   * Tests legacy field asserts for checkbox field type.
-   */
-  public function testLegacyFieldAssertsForCheckbox() {
-    $this->drupalGet('test-field-xpath');
-
-    // Part 1 - Test by name.
+    // Checkbox field type.
     // Test that checkboxes are found/not found correctly by name, when using
     // TRUE or FALSE to match their 'checked' state.
     $this->assertFieldByName('checkbox_enabled', TRUE);
@@ -491,13 +420,17 @@ class BrowserTestBaseTest extends BrowserTestBase {
     $this->assertFieldByName('checkbox_enabled', NULL);
     $this->assertFieldByName('checkbox_disabled', NULL);
 
-    // Test that checkboxes are found by name when passing no second parameter.
-    $this->assertFieldByName('checkbox_enabled');
-    $this->assertFieldByName('checkbox_disabled');
+    // Test that checkboxes are found/not found correctly by ID, when using
+    // TRUE or FALSE to match their 'checked' state.
+    $this->assertFieldById('edit-checkbox-enabled', TRUE);
+    $this->assertFieldById('edit-checkbox-disabled', FALSE);
+    $this->assertNoFieldById('edit-checkbox-enabled', FALSE);
+    $this->assertNoFieldById('edit-checkbox-disabled', TRUE);
 
-    // Test that we have legacy support.
-    $this->assertFieldByName('checkbox_enabled', '1');
-    $this->assertFieldByName('checkbox_disabled', '');
+    // Test that checkboxes are found by by ID, when using NULL to ignore the
+    // 'checked' state.
+    $this->assertFieldById('edit-checkbox-enabled', NULL);
+    $this->assertFieldById('edit-checkbox-disabled', NULL);
 
     // Test that the assertion fails correctly when using NULL to ignore state.
     try {
@@ -508,27 +441,6 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->pass('assertNoFieldByName failed correctly. The "checkbox_enabled" field was found using NULL value.');
     }
 
-    // Part 2 - Test by ID.
-    // Test that checkboxes are found/not found correctly by ID, when using
-    // TRUE or FALSE to match their 'checked' state.
-    $this->assertFieldById('edit-checkbox-enabled', TRUE);
-    $this->assertFieldById('edit-checkbox-disabled', FALSE);
-    $this->assertNoFieldById('edit-checkbox-enabled', FALSE);
-    $this->assertNoFieldById('edit-checkbox-disabled', TRUE);
-
-    // Test that checkboxes are found by ID, when using NULL to ignore the
-    // 'checked' state.
-    $this->assertFieldById('edit-checkbox-enabled', NULL);
-    $this->assertFieldById('edit-checkbox-disabled', NULL);
-
-    // Test that checkboxes are found by ID when passing no second parameter.
-    $this->assertFieldById('edit-checkbox-enabled');
-    $this->assertFieldById('edit-checkbox-disabled');
-
-    // Test that we have legacy support.
-    $this->assertFieldById('edit-checkbox-enabled', '1');
-    $this->assertFieldById('edit-checkbox-disabled', '');
-
     // Test that the assertion fails correctly when using NULL to ignore state.
     try {
       $this->assertNoFieldById('edit-checkbox-disabled', NULL);
@@ -538,7 +450,7 @@ class BrowserTestBaseTest extends BrowserTestBase {
       $this->pass('assertNoFieldById failed correctly. The "edit-checkbox-disabled" field was found by ID using NULL value.');
     }
 
-    // Part 3 - Test the specific 'checked' assertions.
+    // Test the specific 'checked' assertions.
     $this->assertFieldChecked('edit-checkbox-enabled');
     $this->assertNoFieldChecked('edit-checkbox-disabled');
 

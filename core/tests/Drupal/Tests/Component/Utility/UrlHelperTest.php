@@ -3,14 +3,14 @@
 namespace Drupal\Tests\Component\Utility;
 
 use Drupal\Component\Utility\UrlHelper;
-use PHPUnit\Framework\TestCase;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * @group Utility
  *
  * @coversDefaultClass \Drupal\Component\Utility\UrlHelper
  */
-class UrlHelperTest extends TestCase {
+class UrlHelperTest extends UnitTestCase {
 
   /**
    * Provides test data for testBuildQuery().

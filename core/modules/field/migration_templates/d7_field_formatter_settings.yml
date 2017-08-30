@@ -2,8 +2,8 @@ id: d7_field_formatter_settings
 label: Field formatter configuration
 migration_tags:
   - Drupal 7
-class: Drupal\migrate_drupal\Plugin\migrate\FieldMigration
-field_plugin_method: processFieldFormatter
+class: Drupal\migrate_drupal\Plugin\migrate\CckMigration
+cck_plugin_method: processFieldFormatter
 source:
   plugin: d7_field_instance_per_view_mode
   constants:
@@ -44,14 +44,14 @@ process:
       map:
         full: default
   field_name: field_name
-  "options/label": 'formatter/label'
-  "options/weight": 'formatter/weight'
+  "options/label": label
+  "options/weight": weight
   # The formatter to use.
   "options/type":
     -
       plugin: static_map
       bypass: true
-      source: 'formatter/type'
+      source: formatter_type
       map:
         date_default: datetime_default
         email_default: email_mailto
@@ -69,7 +69,7 @@ process:
       method: row
   "options/settings":
     plugin: default_value
-    source: 'formatter/settings'
+    source: settings
     default_value: []
   "options/third_party_settings": 'constants/third_party_settings'
 destination:

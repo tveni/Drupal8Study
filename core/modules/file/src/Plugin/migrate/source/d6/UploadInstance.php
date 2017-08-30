@@ -10,7 +10,7 @@ use Drupal\migrate\Plugin\migrate\source\DummyQueryTrait;
  *
  * @MigrateSource(
  *   id = "d6_upload_instance",
- *   source_module = "upload"
+ *   source_provider = "upload"
  * )
  */
 class UploadInstance extends DrupalSqlBase {

@@ -16,7 +16,6 @@
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Classes/ClassDeclarationSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Classes/FullyQualifiedNamespaceSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Classes/UnusedUseStatementSniff.php"/>
-  <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Classes/UseLeadingBackslashSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/CSS/ClassDefinitionNameSpacingSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/CSS/ColourDefinitionSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Commenting/ClassCommentSniff.php">
@@ -57,15 +56,19 @@
     <exclude name="Drupal.Commenting.FunctionComment.MissingReturnType"/>
     <exclude name="Drupal.Commenting.FunctionComment.ParamCommentFullStop"/>
     <exclude name="Drupal.Commenting.FunctionComment.ParamCommentIndentation"/>
+    <exclude name="Drupal.Commenting.FunctionComment.ParamCommentNewLine"/>
+    <exclude name="Drupal.Commenting.FunctionComment.ParamCommentNotCapital"/>
     <exclude name="Drupal.Commenting.FunctionComment.ParamMissingDefinition"/>
     <exclude name="Drupal.Commenting.FunctionComment.ParamNameNoMatch"/>
+    <exclude name="Drupal.Commenting.FunctionComment.ParamTypeSpaces"/>
+    <exclude name="Drupal.Commenting.FunctionComment.ReturnCommentIndentation"/>
+    <exclude name="Drupal.Commenting.FunctionComment.ReturnTypeSpaces"/>
     <exclude name="Drupal.Commenting.FunctionComment.TypeHintMissing"/>
   </rule>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/ControlStructures/ElseIfSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/ControlStructures/ControlSignatureSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Files/EndFileNewlineSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Files/TxtFileLineLengthSniff.php"/>
-  <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Formatting/MultiLineAssignmentSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Formatting/SpaceInlineIfSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Formatting/SpaceUnaryOperatorSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Functions/DiscouragedFunctionsSniff.php"/>
@@ -74,10 +77,6 @@
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/InfoFiles/ClassFilesSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/InfoFiles/DuplicateEntrySniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/InfoFiles/RequiredSniff.php"/>
-  <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/NamingConventions/ValidVariableNameSniff.php">
-    <!-- Sniff for: LowerStart -->
-    <exclude name="Drupal.NamingConventions.ValidVariableName.LowerCamelName"/>
-  </rule>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Scope/MethodScopeSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Semantics/EmptyInstallSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Semantics/FunctionTSniff.php">
@@ -92,7 +91,6 @@
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Semantics/TInHookMenuSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/Semantics/TInHookSchemaSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/WhiteSpace/CommaSniff.php"/>
-  <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/WhiteSpace/EmptyLinesSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/WhiteSpace/ObjectOperatorIndentSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/WhiteSpace/ObjectOperatorSpacingSniff.php"/>
   <rule ref="../vendor/drupal/coder/coder_sniffer/Drupal/Sniffs/WhiteSpace/OpenTagNewlineSniff.php"/>
@@ -105,7 +103,6 @@
   <!-- Generic sniffs -->
   <rule ref="Generic.Files.LineEndings"/>
   <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
-  <rule ref="Generic.NamingConventions.ConstructorName" />
   <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
   <rule ref="Generic.PHP.DeprecatedFunctions"/>
   <rule ref="Generic.PHP.DisallowShortOpenTag"/>

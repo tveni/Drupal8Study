@@ -8,13 +8,13 @@
 namespace Drupal\Tests\Component\Utility;
 
 use Drupal\Component\Utility\ArgumentsResolver;
-use PHPUnit\Framework\TestCase;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\Component\Utility\ArgumentsResolver
  * @group Access
  */
-class ArgumentsResolverTest extends TestCase {
+class ArgumentsResolverTest extends UnitTestCase {
 
   /**
    * {@inheritdoc}

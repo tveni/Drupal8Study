@@ -6,14 +6,13 @@ use Drupal\comment\Entity\Comment;
 use Drupal\comment\Entity\CommentType;
 use Drupal\comment\Tests\CommentTestTrait;
 use Drupal\entity_test\Entity\EntityTest;
-use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
 use Drupal\Tests\rest\Functional\EntityResource\EntityResourceTestBase;
 use Drupal\user\Entity\User;
 use GuzzleHttp\RequestOptions;
 
 abstract class CommentResourceTestBase extends EntityResourceTestBase {
 
-  use CommentTestTrait, BcTimestampNormalizerUnixTestTrait;
+  use CommentTestTrait;
 
   /**
    * {@inheritdoc}
@@ -149,10 +148,14 @@ abstract class CommentResourceTestBase extends EntityResourceTestBase {
         ],
       ],
       'created' => [
-        $this->formatExpectedTimestampItemValues(123456789),
+        [
+          'value' => 123456789,
+        ],
       ],
       'changed' => [
-        $this->formatExpectedTimestampItemValues($this->entity->getChangedTime()),
+        [
+          'value' => $this->entity->getChangedTime(),
+        ],
       ],
       'default_langcode' => [
         [
@@ -219,7 +222,7 @@ abstract class CommentResourceTestBase extends EntityResourceTestBase {
       ],
       'entity_id' => [
         [
-          'target_id' => (int) EntityTest::load(1)->id(),
+          'target_id' => EntityTest::load(1)->id(),
         ],
       ],
       'field_name' => [
@@ -277,8 +280,8 @@ abstract class CommentResourceTestBase extends EntityResourceTestBase {
     $response = $this->request('POST', $url, $request_options);
     // @todo Uncomment, remove next 3 lines in https://www.drupal.org/node/2820364.
     $this->assertSame(500, $response->getStatusCode());
-    $this->assertSame(['text/plain; charset=UTF-8'], $response->getHeader('Content-Type'));
-    $this->assertStringStartsWith('The website encountered an unexpected error. Please try again later.</br></br><em class="placeholder">Symfony\Component\HttpKernel\Exception\HttpException</em>: Internal Server Error in <em class="placeholder">Drupal\rest\Plugin\rest\resource\EntityResource-&gt;post()</em>', (string) $response->getBody());
+    $this->assertSame(['application/json'], $response->getHeader('Content-Type'));
+    $this->assertSame('{"message":"A fatal error occurred: Internal Server Error"}', (string) $response->getBody());
     //$this->assertResourceErrorResponse(422, "Unprocessable Entity: validation failed.\nentity_type: This value should not be null.\n", $response);
 
     // DX: 422 when missing 'entity_id' field.
@@ -300,9 +303,10 @@ abstract class CommentResourceTestBase extends EntityResourceTestBase {
     // DX: 422 when missing 'entity_type' field.
     $request_options[RequestOptions::BODY] = $this->serializer->encode(array_diff_key($this->getNormalizedPostEntity(), ['field_name' => TRUE]), static::$format);
     $response = $this->request('POST', $url, $request_options);
-    // @todo Uncomment, remove next 2 lines in https://www.drupal.org/node/2820364.
+    // @todo Uncomment, remove next 3 lines in https://www.drupal.org/node/2820364.
     $this->assertSame(500, $response->getStatusCode());
-    $this->assertSame(['text/plain; charset=UTF-8'], $response->getHeader('Content-Type'));
+    $this->assertSame(['application/json'], $response->getHeader('Content-Type'));
+    $this->assertSame('{"message":"A fatal error occurred: Field  is unknown."}', (string) $response->getBody());
     //$this->assertResourceErrorResponse(422, "Unprocessable Entity: validation failed.\nfield_name: This value should not be null.\n", $response);
   }
 

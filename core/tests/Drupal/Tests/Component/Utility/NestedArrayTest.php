@@ -3,13 +3,13 @@
 namespace Drupal\Tests\Component\Utility;
 
 use Drupal\Component\Utility\NestedArray;
-use PHPUnit\Framework\TestCase;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\Component\Utility\NestedArray
  * @group Utility
  */
-class NestedArrayTest extends TestCase {
+class NestedArrayTest extends UnitTestCase {
 
   /**
    * Form array to check.

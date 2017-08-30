@@ -259,7 +259,7 @@ class OptionsFieldUITest extends FieldTestBase {
    * Helper function to create list field of a given type.
    *
    * @param string $type
-   *   One of 'list_integer', 'list_float' or 'list_string'.
+   *   'list_integer', 'list_float' or 'list_string'
    */
   protected function createOptionsField($type) {
     // Create a field.
@@ -328,7 +328,7 @@ class OptionsFieldUITest extends FieldTestBase {
     $edit = [
       $this->fieldName => '1',
     ];
-    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, t('Save and keep published'));
 
     // Check the node page and see if the values are correct.
     $file_formatters = ['list_default', 'list_key'];

@@ -250,11 +250,7 @@ class DateTimePlus {
    *   (optional) A date/time string. Defaults to 'now'.
    * @param mixed $timezone
    *   (optional) \DateTimeZone object, time zone string or NULL. NULL uses the
-   *   default system time zone. Defaults to NULL. Note that the $timezone
-   *   parameter and the current timezone are ignored when the $time parameter
-   *   either is a UNIX timestamp (e.g. @946684800) or specifies a timezone
-   *   (e.g. 2010-01-28T15:00:00+02:00).
-   *   @see http://php.net/manual/en/datetime.construct.php
+   *   default system time zone. Defaults to NULL.
    * @param array $settings
    *   (optional) Keyed array of settings. Defaults to empty array.
    *   - langcode: (optional) String two letter language code used to control
@@ -326,7 +322,7 @@ class DateTimePlus {
    *    Should the interval be forced to be positive?
    *
    * @return \DateInterval
-   *   A DateInterval object representing the difference between the two dates.
+   *    A DateInterval object representing the difference between the two dates.
    *
    * @throws \BadMethodCallException
    *    If the input isn't a DateTime or DateTimePlus object.
@@ -430,6 +426,7 @@ class DateTimePlus {
   protected function prepareFormat($format) {
     return $format;
   }
+
 
 
   /**

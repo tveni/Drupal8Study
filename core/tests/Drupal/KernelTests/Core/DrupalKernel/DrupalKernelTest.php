@@ -184,11 +184,6 @@ class DrupalKernelTest extends KernelTestBase {
       $pass = TRUE;
     }
     $this->assertTrue($pass, 'Throws LogicException if DrupalKernel::setSitePath() is called after boot');
-
-    // Ensure no LogicException if DrupalKernel::setSitePath() is called with
-    // identical path after boot.
-    $path = $kernel->getSitePath();
-    $kernel->setSitePath($path);
   }
 
 }
